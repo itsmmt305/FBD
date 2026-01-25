@@ -2,14 +2,11 @@ package com.itsmmt305.fbd
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
-import android.os.Bundle
 import android.content.Intent
+import android.os.Bundle
 import android.os.Environment
-import android.webkit.WebChromeClient
-import android.webkit.WebSettings
-import android.webkit.WebView
+import android.webkit.*
 import android.widget.Toast
-import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 
@@ -22,13 +19,82 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         webView = findViewById(R.id.webView)
-        setupWebView()
 
-        webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
+        setupWebView()
+        setupDownloadListener()
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent(intent)
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private fun setupWebView() {
+        webView.settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            useWideViewPort = true
+            loadWithOverviewMode = true
+            cacheMode = WebSettings.LOAD_DEFAULT
+            mediaPlaybackRequiresUserGesture = false
+        }
+
+        webView.webChromeClient = WebChromeClient()
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        val url =
+            if (intent?.action == Intent.ACTION_SEND && intent.type == "text/plain") {
+                intent.getStringExtra(Intent.EXTRA_TEXT)
+            } else null
+
+        if (url == null) return
+
+        if (!isFacebookUrl(url)) {
+            Toast.makeText(this, "Invalid Link", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // HARD RESET WebView every time
+        webView.stopLoading()
+        webView.clearHistory()
+        webView.clearCache(true)
+
+        // ONE-TIME WebViewClient FOR THIS SHARE ONLY
+        webView.webViewClient = object : WebViewClient() {
+
+            override fun onPageFinished(view: WebView?, currentUrl: String?) {
+                super.onPageFinished(view, currentUrl)
+                if (view == null || currentUrl == null) return
+
+                // Always hide navbar
+                hideNavbar(view)
+
+                // Homepage -> paste & submit
+                if (currentUrl == "https://fdown.net/") {
+                    pasteAndSubmit(view, url)
+                }
+
+                // Download page -> click hdlink
+                if (currentUrl == "https://fdown.net/download.php") {
+                    clickHdLink(view)
+                }
+            }
+        }
+
+        webView.loadUrl("https://fdown.net")
+        Toast.makeText(this, "Pasted", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setupDownloadListener() {
+        webView.setDownloadListener { url, userAgent, _, mimeType, _ ->
 
             val request = DownloadManager.Request(url.toUri())
-                .setTitle("FBD.")
-                .setDescription("Downloading...")
+                .setTitle("FBD")
+                .setDescription("Downloading…")
                 .setMimeType(mimeType)
                 .addRequestHeader("User-Agent", userAgent)
                 .setNotificationVisibility(
@@ -43,94 +109,71 @@ class MainActivity : AppCompatActivity() {
             dm.enqueue(request)
 
             Toast.makeText(this, "Download started", Toast.LENGTH_SHORT).show()
-        }
 
-        handleIntent(intent)
+            // exit app on download start
+            webView.postDelayed({
+                finish()
+            }, 800)
+        }
     }
 
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        setIntent(intent)
-        handleIntent(intent)
+    private fun isFacebookUrl(url: String): Boolean {
+        val u = url.lowercase()
+        return u.contains("facebook.com") ||
+                u.contains("m.facebook.com") ||
+                u.contains("fb.watch")
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private fun setupWebView(){
-        webView.settings.apply {
-            javaScriptEnabled = true
-            domStorageEnabled = true
-            useWideViewPort = true
-            loadWithOverviewMode = true
-            cacheMode = WebSettings.LOAD_DEFAULT
-            mediaPlaybackRequiresUserGesture = false
-        }
+    // ---------------- JS ----------------
 
-        webView.webViewClient = WebViewClient()
-        webView.webChromeClient = WebChromeClient()
-
-        webView.loadUrl("https://fdown.net")
-    }
-
-
-    private fun handleIntent(intent: Intent?) {
-        val sharedUrl = if (intent?.action == Intent.ACTION_SEND && "text/plain" == intent.type) {
-            intent.getStringExtra(Intent.EXTRA_TEXT)
-        } else {
-            null
-        }
-
-
-        fun urlHandler(urlToInject: String) {
-            webView.webViewClient = object : WebViewClient() {
-                // This code runs after the page has finished loading
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    super.onPageFinished(view, url)
-                    // We must be on the correct page before trying to inject JavaScript
-                    if (url == "https://fdown.net/") {
-                        // Create the JavaScript code to find the input and set its value
-                        // The replace("'", "\\'") handles URLs containing single quotes
-                        val jsCode = """
-                        (function() {
-                            var input = document.querySelector('input[name="URLz"]');
-                            var btn = document.querySelector('input[name="URLz"]')
-                            ?.closest('form')
-                            ?.querySelector('button[type="submit"]');
-
-                            if (input) {
-                                input.value = '${urlToInject.replace("'", "\\'")}';
-                                setTimeout(function () { // why why WHY
-                                    if (btn) {
-                                        btn.click();
-                                    }
-                                }, 150); // understanding this delay
-                            }
-                                  
-                            })()
-                    """
-                        // Execute the JavaScript
-                        view?.evaluateJavascript(jsCode, null)
+    private fun hideNavbar(view: WebView) {
+        val js = """
+            (function () {
+                var style = document.createElement('style');
+                style.innerHTML = `
+                    .navbar.navbar-default.navbar-static-top {
+                        display: none !important;
                     }
-                }
-            }
+                `;
+                document.head.appendChild(style);
+            })();
+        """.trimIndent()
 
-            // Start by loading the base URL
-            webView.loadUrl("https://fdown.net")
-        }
+        view.evaluateJavascript(js, null)
+    }
 
-        fun isFacebookUrl(url: String): Boolean {
-            val u = url.lowercase()
-            return u.contains("facebook.com") ||
-                    u.contains("m.facebook.com") ||
-                    u.contains("fb.watch")
-        }
+    private fun pasteAndSubmit(view: WebView, url: String) {
+        val safeUrl = url.replace("'", "\\'")
 
-        if (sharedUrl != null) {
-            if (isFacebookUrl(sharedUrl)) {
-                urlHandler(sharedUrl)
-                Toast.makeText(this, "Pasted", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Invalid Link", Toast.LENGTH_SHORT).show()
-            }
-        }
+        val js = """
+            (function () {
+                var input = document.querySelector('input[name="URLz"]');
+                if (!input) return;
+
+                var btn = input.closest('form')?.querySelector('button[type="submit"]');
+
+                input.value = '$safeUrl';
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+                input.focus();
+
+                setTimeout(function () {
+                    if (btn) btn.click();
+                }, 150);
+            })();
+        """.trimIndent()
+
+        view.evaluateJavascript(js, null)
+    }
+
+    private fun clickHdLink(view: WebView) {
+        val js = """
+            (function () {
+                var btn = document.getElementById('hdlink');
+                if (btn) btn.click();
+            })();
+        """.trimIndent()
+
+        view.evaluateJavascript(js, null)
     }
 }
