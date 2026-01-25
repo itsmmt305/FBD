@@ -1,14 +1,18 @@
 package com.itsmmt305.fbd
 
 import android.annotation.SuppressLint
+import android.app.DownloadManager
 import android.os.Bundle
 import android.content.Intent
+import android.os.Environment
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.Toast
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
@@ -19,6 +23,27 @@ class MainActivity : AppCompatActivity() {
 
         webView = findViewById(R.id.webView)
         setupWebView()
+
+        webView.setDownloadListener { url, userAgent, contentDisposition, mimeType, _ ->
+
+            val request = DownloadManager.Request(url.toUri())
+                .setTitle("FBD.")
+                .setDescription("Downloading...")
+                .setMimeType(mimeType)
+                .addRequestHeader("User-Agent", userAgent)
+                .setNotificationVisibility(
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+                )
+                .setDestinationInExternalPublicDir(
+                    Environment.DIRECTORY_DOWNLOADS,
+                    "fbd_${System.currentTimeMillis()}.mp4"
+                )
+
+            val dm = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            dm.enqueue(request)
+
+            Toast.makeText(this, "Download started", Toast.LENGTH_SHORT).show()
+        }
 
         handleIntent(intent)
     }
