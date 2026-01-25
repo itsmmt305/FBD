@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        fun loadUrlAndInject(urlToInject: String) {
+        fun urlHandler(urlToInject: String) {
             webView.webViewClient = object : WebViewClient() {
                 // This code runs after the page has finished loading
                 override fun onPageFinished(view: WebView?, url: String?) {
@@ -67,10 +67,20 @@ class MainActivity : AppCompatActivity() {
                         val jsCode = """
                         (function() {
                             var input = document.querySelector('input[name="URLz"]');
+                            var btn = document.querySelector('input[name="URLz"]')
+                            ?.closest('form')
+                            ?.querySelector('button[type="submit"]');
+
                             if (input) {
                                 input.value = '${urlToInject.replace("'", "\\'")}';
+                                setTimeout(function () { // why why WHY
+                                    if (btn) {
+                                        btn.click();
+                                    }
+                                }, 150); // understanding this delay
                             }
-                        })()
+                                  
+                            })()
                     """
                         // Execute the JavaScript
                         view?.evaluateJavascript(jsCode, null)
@@ -91,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 
         if (sharedUrl != null) {
             if (isFacebookUrl(sharedUrl)) {
-                loadUrlAndInject(sharedUrl)
+                urlHandler(sharedUrl)
                 Toast.makeText(this, "Pasted", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Invalid Link", Toast.LENGTH_SHORT).show()
