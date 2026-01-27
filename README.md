@@ -1,9 +1,9 @@
-# FBD – Freehand Boomer Downloader (Android)
+# FBD – Freehand Boomer Downloader
 
 FBD is an *Android WebView application* designed to **automate** a very specific workflow:  
 load a target webpage, trigger a download action automatically, notify the user, and exit cleanly.
 
-This app is built for **speed, automation, and minimal user interaction** — not for casual browsing.
+This app is built for **speed, automation, and minimal user interaction**, not for casual browsing.
 
 ---
 
