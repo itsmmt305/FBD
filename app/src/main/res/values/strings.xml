@@ -3,4 +3,6 @@
     <string name="app_title">fbd.</string>
     <string name="library">Library</string>
     <string name="more">More</string>
+    <string name="fbd_full">Freehand\nBoomer\nDownloader</string>
+    <string name="version">v.1.2.0</string>
 </resources>

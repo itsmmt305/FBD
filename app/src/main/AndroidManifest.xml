@@ -11,14 +11,25 @@
         android:label="FBD"
         android:theme="@style/Theme.FBD">
 
+        <!-- Launcher / Branding Activity -->
+        <activity
+            android:name=".LauncherActivity"
+            android:exported="true">
+
+            <!-- Normal app launch -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <!-- WebView Automation Activity -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleInstance">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND"/>
