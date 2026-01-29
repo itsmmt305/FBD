@@ -5,4 +5,5 @@
     <string name="more">More</string>
     <string name="fbd_full">Freehand\nBoomer\nDownloader</string>
     <string name="version">v.1.2.0</string>
+    <string name="app_open">Start Downloading</string>
 </resources>
