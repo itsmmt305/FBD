@@ -46,10 +46,12 @@ app/
 └── src/  
 └── main/  
 ├── java/com/yourpackage/fbd/  
-│ &nbsp;&nbsp;&nbsp;&nbsp;└── MainActivity.java  
+│ &nbsp;&nbsp;&nbsp;&nbsp;└── MainActivity.kt  
+│ &nbsp;&nbsp;&nbsp;&nbsp;└── LauncherActivity.kt  
 ├── res/  
 │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── layout/  
 │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;└── activity_main.xml  
+│ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ &nbsp;&nbsp;&nbsp;&nbsp;└── activity_launcher.xml  
 │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── values/  
 │ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── styles.xml  
 └── AndroidManifest.xml  
