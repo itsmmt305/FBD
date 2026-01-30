@@ -190,3 +190,6 @@ class MainActivity : AppCompatActivity() {
         view.evaluateJavascript(js, null)
     }
 }
+
+
+//learner's notes
