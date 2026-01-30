@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/colorSurface">
+    android:background="?attr/colorSurfaceContainer"
+    android:fitsSystemWindows="true">
 
     <!-- SIDE NAV (LEFT) -->
     <com.google.android.material.navigationrail.NavigationRailView
@@ -13,14 +14,17 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled" />
+        android:background="?attr/colorSurfaceContainer"
+        app:labelVisibilityMode="labeled"
+        android:paddingTop="80dp"/>
 
     <!-- MAIN CONTENT -->
     <FrameLayout
         android:id="@+id/contentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="160dp">
+        android:layout_marginStart="100dp"
+        android:background="@color/transparent">
 
         <!-- Same content as portrait -->
         <!-- Branding / button / text -->
@@ -49,11 +53,12 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="85dp"
+            android:layout_marginBottom="5dp"
             app:cardElevation="0dp"
             app:cardBackgroundColor="@android:color/transparent"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
-            android:layout_marginRight="10dp">
+            android:layout_marginEnd="10dp">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
