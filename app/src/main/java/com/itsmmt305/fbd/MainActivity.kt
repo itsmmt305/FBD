@@ -7,14 +7,27 @@ import android.os.Bundle
 import android.os.Environment
 import android.webkit.*
 import android.widget.Toast
+import androidx.activity.SystemBarStyle
+import androidx.activity.SystemBarStyle.Companion.dark
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
+import androidx.core.view.WindowCompat
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.auto(
+                lightScrim = Color.Transparent.toArgb(),
+                darkScrim = Color.Transparent.toArgb(),
+                )
+        )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
