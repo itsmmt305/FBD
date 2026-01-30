@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -56,11 +57,21 @@
     </RelativeLayout>
 
     <!-- WebView -->
+    <com.google.android.material.card.MaterialCardView
 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+        android:layout_marginHorizontal="10dp">
     <WebView
         android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#EBF0F0"/>
+
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
