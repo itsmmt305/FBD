@@ -13,9 +13,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:layout_marginStart="10dp"
         app:menu="@menu/bottom_nav_menu"
         android:background="?attr/colorSurfaceContainer"
-        app:labelVisibilityMode="labeled"
+        app:labelVisibilityMode="unlabeled"
         android:paddingTop="80dp"/>
 
     <!-- MAIN CONTENT -->
@@ -67,11 +68,11 @@
                 android:overScrollMode="always">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="left"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     tools:ignore="RtlHardcoded,RtlSymmetry,UselessParent">
 
 
@@ -80,7 +81,8 @@
                         android:layout_height="match_parent"
                         tools:ignore="UseCompoundDrawables"
                         android:layout_gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_marginEnd="100dp">
 
 
                         <TextView
@@ -109,16 +111,16 @@
 
                     <Button
                         android:id="@+id/app_open"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="@string/app_open"
-                        android:textSize="16sp"
-                        android:layout_margin="50dp"
-                        android:layout_gravity="left"
                         style="@style/Widget.Material3.Button"
-                        app:backgroundTint="?attr/colorSecondary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_margin="50dp"
+                        android:layout_marginStart="50dp"
+                        android:text="@string/app_open"
                         android:textColor="?attr/colorOnSecondary"
-                        />
+                        android:textSize="16sp"
+                        app:backgroundTint="?attr/colorSecondary" />
 
                 </LinearLayout>
 
