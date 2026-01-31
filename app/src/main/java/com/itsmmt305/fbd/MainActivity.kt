@@ -8,13 +8,11 @@ import android.os.Environment
 import android.webkit.*
 import android.widget.Toast
 import androidx.activity.SystemBarStyle
-import androidx.activity.SystemBarStyle.Companion.dark
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
-import androidx.core.view.WindowCompat
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         setupWebView()
         setupDownloadListener()
         handleIntent(intent)
+
+        //DEBUG
+        //webView.loadUrl("https://fdown.net")
     }
 
     override fun onNewIntent(intent: Intent) {

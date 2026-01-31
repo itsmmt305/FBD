@@ -26,6 +26,8 @@ class LauncherActivity : AppCompatActivity() {
         val btn = findViewById<Button>(R.id.app_open)
         btn.setOnClickListener {
             openApp()
+        // DEBUG
+        //startActivity(Intent(this, MainActivity::class.java))
         }
     }
 
