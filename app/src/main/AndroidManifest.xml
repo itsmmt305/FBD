@@ -11,7 +11,7 @@
         android:label="FBD"
         android:theme="@style/Theme.FBD">
 
-        <!-- Launcher / Branding Activity -->
+        <!-- Launcher Activity -->
         <activity
             android:name=".LauncherActivity"
             android:exported="true">

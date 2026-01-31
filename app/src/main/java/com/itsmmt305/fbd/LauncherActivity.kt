@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.net.toUri
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
+import com.google.android.material.navigationrail.NavigationRailView
 
 class LauncherActivity : AppCompatActivity() {
 
@@ -22,6 +25,24 @@ class LauncherActivity : AppCompatActivity() {
         )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
+
+        val bottomNav = findViewById<BottomNavigationView?>(R.id.bottomNav)
+        val navRail = findViewById<NavigationRailView?>(R.id.navRail)
+
+        val listener = NavigationBarView.OnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    true
+                }
+                R.id.nav_info -> {
+                    true
+                }
+                else -> false
+            }
+        }
+
+        bottomNav?.setOnItemSelectedListener(listener)
+        navRail?.setOnItemSelectedListener(listener)
 
         val btn = findViewById<Button>(R.id.app_open)
         btn.setOnClickListener {
