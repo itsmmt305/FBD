@@ -7,7 +7,7 @@
     android:background="?attr/colorSurfaceContainer"
     android:fitsSystemWindows="true">
 
-    <!-- SIDE NAV (LEFT) -->
+    <!-- SIDE NAV -->
     <com.google.android.material.navigationrail.NavigationRailView
         android:id="@+id/navRail"
         android:layout_width="wrap_content"

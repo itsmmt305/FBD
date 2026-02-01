@@ -31,6 +31,7 @@
             tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 
+    <!-- Branding -->
     <com.google.android.material.card.MaterialCardView
 
         android:layout_width="match_parent"
@@ -107,6 +108,7 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Navbar -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
