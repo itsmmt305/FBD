@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurfaceContainer"
-    android:fitsSystemWindows="true"> <!-- statusbar-header fix -->
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"> <!-- statusbar-header fix -->
 
     <!-- Header -->
     <RelativeLayout
@@ -20,12 +19,12 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_title"
+            android:layout_centerVertical="true"
             android:fontFamily="sans-serif-black"
-            android:textSize="32sp"
-            android:textStyle="bold"
+            android:text="@string/app_title"
             android:textColor="?attr/colorSecondary"
-            android:layout_centerVertical="true" />
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -34,16 +33,17 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="15dp"
         android:layout_marginTop="10dp"
-        app:cardElevation="0dp"
         app:cardBackgroundColor="@android:color/transparent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
-        android:layout_marginHorizontal="15dp">
-    <WebView
-        android:id="@+id/webView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#EBF0F0"/>
+        app:cardElevation="0dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EBF0F0" />
 
     </com.google.android.material.card.MaterialCardView>
 
